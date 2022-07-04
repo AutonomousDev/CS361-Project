@@ -4,6 +4,9 @@ from django.views.generic.list import ListView
 from django.views.generic import DetailView
 from django.views import View
 
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
+
 from django.http import HttpResponse
 from .models import Product
 
@@ -22,3 +25,12 @@ class ProductsListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ['name', 'brand', 'description']
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
