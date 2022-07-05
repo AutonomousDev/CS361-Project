@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>product detail</title>
-</head>
-<body>
-<h2><a href="{% url 'product-list' %}"> Back to product list</a></h2>
-<h1>{{object.name}}</h1>
-<p>{{object.brand}}</p>
-<p>{{object.description}}</p>
+{% extends '../base.html' %}
+{% block content %}
+<div class="row m-3">
+    <div class="col-md-9">
 
+        <div>
+            <h1>{{object.name}}</h1>
+            <p>Brand: {{object.brand}}</p>
+            <h3>Description</h3>
+            <p>{{object.description}}</p>
 
-</body>
-</html>
+            <div>
+                <h3>Reviews</h3>
+                <p>Reviews will go here eventually</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
