@@ -34,3 +34,6 @@ class ProductCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
+
+def error_404(request, exception):
+    return render(request, '404.html', status = 404)
