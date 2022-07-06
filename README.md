@@ -1,7 +1,5 @@
 # CS361-Project
 
-Version A.0.1.0
-
 
 # Install 
 
