@@ -6,6 +6,9 @@ Version A.0.1.0
 # Install 
 
 Install python 3
-run `$ pip install -r requirements.txt`
+run: `$ pip install -r requirements.txt`
 
-in terminal run ` python manage.py runserver `
+# Run server
+
+in terminal run: 
+` python manage.py runserver `
