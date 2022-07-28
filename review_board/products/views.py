@@ -5,10 +5,11 @@ from django.views.generic import DetailView
 from django.views import View
 
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-
+# import get_object_or_404()
+from django.shortcuts import get_object_or_404
 
 from django.http import HttpResponse
-from .models import Product
+from .models import Product, Review
 
 
 def hello(request):
@@ -26,14 +27,36 @@ class ProductsListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Reviews'] = Review.objects.filter(product=self.get_object())
+        return context
+
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ['name', 'brand', 'description']
+    fields = ['name', 'brand', 'description', 'product_image']
 
     def form_valid(self, form):
         return super().form_valid(form)
 
 
+class ReviewCreateView(CreateView):
+    model = Review
+    fields = ['title', 'comments']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Product'] = Product.objects.get(id=self.kwargs.get('pk'))
+        return context
+
+    def form_valid(self, form):
+        form.instance.product = get_object_or_404(Product, id=self.kwargs.get('pk'))  # new line
+        return super().form_valid(form)
+
+
 def error_404(request, exception):
     return render(request, '404.html', status=404)
+
+
+
