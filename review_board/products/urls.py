@@ -24,6 +24,7 @@ urlpatterns = [
     path('product/add/', views.ProductCreateView.as_view(), name='product-create'),
     # path('404/', views.error_404(None, None), name='404'),
     path('product/<int:pk>/new-review/', views.ReviewCreateView.as_view(), name='new-review'),
+    path('(?P<search_term>\d+)/$', views.ProductsListView.as_view(), name="searchfromurl")
 
 ]
 

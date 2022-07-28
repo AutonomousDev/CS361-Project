@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 
 from django.http import HttpResponse
 from .models import Product, Review
+from django.db.models import Q
 
 
 def hello(request):
@@ -19,9 +20,25 @@ def hello(request):
 
 
 class ProductsListView(ListView):
-    queryset = Product.objects.all()
+
     context_object_name = "products"
     template_name = "products/products.html"
+
+    def get_queryset(self, *args, **kwargs):
+        query = self.request.GET.get("q")
+        object_list = None
+        if query is None:
+            object_list=Product.objects.all()
+        else:
+            object_list = Product.objects.filter(
+                Q(name__icontains=query) | Q(brand__icontains=query)
+            )
+        return object_list
+
+
+
+
+
 
 
 class ProductDetailView(DetailView):
