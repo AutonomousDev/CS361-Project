@@ -10,7 +10,6 @@ def black_white(my_image_file):
     encoded_image = base64.b64encode(image_file.read())
 
     r = requests.post("http://127.0.0.1:5000/bwconv", data={"image": encoded_image})
-
     with Image.open(BytesIO(base64.b64decode(r.json()["image"]))) as bw_image:
         bw_image.save(settings.MEDIA_ROOT + "end.jpeg", format="JPEG")
 
