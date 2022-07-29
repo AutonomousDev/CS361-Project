@@ -8,3 +8,6 @@ class ProductForm(forms.Form):
     product_image = forms.ImageField()
 
 
+class ReviewForm(forms.Form):
+    title = forms.CharField()
+    comment = forms.Textarea()

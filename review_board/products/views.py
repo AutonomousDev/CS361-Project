@@ -1,26 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
-from django.views import View
-
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-# import get_object_or_404()
 from django.shortcuts import get_object_or_404
-
-from django.http import HttpResponse
 from .models import Product, Review
 from django.db.models import Q
-
+from .bw_helper import black_white
+from django.core.files import File
+from django.conf import settings
 
 def hello(request):
     text = """<h1>welcome to my app !</h1>"""
     return render(request, "products/hello.html", {})
-# Create your views here.
 
 
 class ProductsListView(ListView):
-
     context_object_name = "products"
     template_name = "products/products.html"
 
@@ -34,11 +28,6 @@ class ProductsListView(ListView):
                 Q(name__icontains=query) | Q(brand__icontains=query)
             )
         return object_list
-
-
-
-
-
 
 
 class ProductDetailView(DetailView):
@@ -55,6 +44,12 @@ class ProductCreateView(CreateView):
     fields = ['name', 'brand', 'description', 'product_image']
 
     def form_valid(self, form):
+        obj = form.save(commit=False)
+        image = obj.product_image
+        black_white(image)
+        bw_image = open(settings.MEDIA_ROOT + "/resized.jpeg", "rb")
+        image.save("image.jpg", File(bw_image), save=True)
+        obj.save()
         return super().form_valid(form)
 
 
